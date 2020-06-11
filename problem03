@@ -80,21 +80,21 @@ Chris Jackson
  select r.name,m.title,ra.stars,ra.ratingdate from movie m join rating ra on ra.mid=m.mid
  join reviewer r on r.rid=ra.rid order by r.name,m.title,ra.stars;
 
-name           title    stars    ratingdate
-Ashley White	E.T.	3	2011-01-02
-Brittany Harris	Raiders of the Lost Ark	2	2011-01-30
-Brittany Harris	Raiders of the Lost Ark	4	2011-01-12
-Brittany Harris	The Sound of Music	2	2011-01-20
-Chris Jackson	E.T.	2	2011-01-22
-Chris Jackson	Raiders of the Lost Ark	4	
-Chris Jackson	The Sound of Music	3	2011-01-27
-Daniel Lewis	Snow White	4	
-Elizabeth Thomas	Avatar	3	2011-01-15
-Elizabeth Thomas	Snow White	5	2011-01-19
-James Cameron	Avatar	5	2011-01-20
-Mike Anderson	Gone with the Wind	3	2011-01-09
-Sarah Martinez	Gone with the Wind	2	2011-01-22
-Sarah Martinez	Gone with the Wind	4	2011-01-27
+name               title                    stars    ratingdate
+Ashley White   	    E.T.	                      3	     2011-01-02
+Brittany Harris	   Raiders of the Lost Ark	    2	     2011-01-30
+Brittany Harris   	Raiders of the Lost Ark	    4	     2011-01-12
+Brittany Harris	   The Sound of Music	         2	     2011-01-20
+Chris Jackson	     E.T.	                       2     	2011-01-22
+Chris Jackson	     Raiders of the Lost Ark	    4	      
+Chris Jackson	     The Sound of Music	         3	     2011-01-27
+Daniel Lewis	      Snow White                 	4	
+Elizabeth Thomas	  Avatar	                     3	     2011-01-15
+Elizabeth Thomas	  Snow White	                 5     	2011-01-19
+James Cameron     	Avatar	                     5	     2011-01-20
+Mike Anderson	     Gone with the Wind	         3	     2011-01-09
+Sarah Martinez	    Gone with the Wind	         2	     2011-01-22
+Sarah Martinez	    Gone with the Wind	         4	     2011-01-27
  
 /*6.For all cases where the same reviewer rated the same movie twice and gave it a higher rating the 
 second time, return the reviewer's name and the title of the movie*/
@@ -111,26 +111,26 @@ Sort by movie title*/
 select m.title,max(r.stars) no_of_stars from movie m join rating r on m.mid=r.mid group by r.mid order by
 m.title;
 
-title no_of_stars
-Avatar	5
-E.T.	3
-Gone with the Wind	4
-Raiders of the Lost Ark	4
-Snow White	5
-The Sound of Music	3 
+title                no_of_stars
+Avatar	                  5
+E.T.	                    3
+Gone with the Wind	      4
+Raiders of the Lost Ark 	4
+Snow White	              5
+The Sound of Music	      3 
 
 /*8.return the title and the 'rating spread', that is, the difference between highest and lowest ratings given
  to that movie. Sort by rating spread from highest to lowest, then by movie title*/
  select title,(max(stars)-min(stars)) rating_spread from rating r join movie m on r.mid=m.mid
  group by r.mid order by rating_spread desc,title;
 
-title   rating_spread
-Avatar	2
-Gone with the Wind	2
-Raiders of the Lost Ark	2
-E.T.	1
-Snow White	1
-The Sound of Music	1
+title                 rating_spread
+Avatar	                    2
+Gone with the Wind	        2
+Raiders of the Lost Ark	   2
+E.T.                      	1
+Snow White                	1
+The Sound of Music	        1
 
 /*9.Find the difference between the average rating of movies released before 1980 and the average rating of movies
  released after 1980. (Make sure to calculate the average rating for each movie, then the average of those averages 
@@ -159,26 +159,26 @@ movie title, and number of stars*/
 select r.name,m.title,count(ra.stars) no_of_stars from movie m join rating ra on ra.mid=m.mid join reviewer r on 
 r.rid=ra.rid where m.director=r.name;
 
-name  title   no_of_stars
-James Cameron	Avatar	1 
+name              title   no_of_stars
+James Cameron	   Avatar	      1 
 
 /*12.Return all reviewer names and movie names together in a single list, alphabetized.*/
 select distinct r.name,m.title from reviewer r join rating ra on r.rid=ra.rid join movie m on m.mid=ra.mid
 order by m.title,r.name;
 
-name    title
-Elizabeth Thomas	Avatar
-James Cameron	Avatar
-Ashley White	E.T.
-Chris Jackson	E.T.
-Mike Anderson	Gone with the Wind
-Sarah Martinez	Gone with the Wind
-Brittany Harris	Raiders of the Lost Ark
-Chris Jackson	Raiders of the Lost Ark
-Daniel Lewis	Snow White
-Elizabeth Thomas	Snow White
-Brittany Harris	The Sound of Music
-Chris Jackson	The Sound of Music
+name                title
+Elizabeth Thomas	   Avatar
+James Cameron	      Avatar
+Ashley White	       E.T.
+Chris Jackson	      E.T.
+Mike Anderson	      Gone with the Wind
+Sarah Martinez	     Gone with the Wind
+Brittany Harris	    Raiders of the Lost Ark
+Chris Jackson	      Raiders of the Lost Ark
+Daniel Lewis	       Snow White
+Elizabeth Thomas	   Snow White
+Brittany Harris	    The Sound of Music
+Chris Jackson	      The Sound of Music
 
 /*13.titles of all movies not reviewed by Chris Jackson*/
 select title from movie where mid not in 
@@ -197,35 +197,35 @@ select m1.name reviewer1,m2.name reviewer2 from reviewer m1 join (select distinc
 from rating r1 join rating r2 on r1.mid=r2.mid where r2.rid<>r1.rid group by r1.mid) p
 on p.rid1=m1.rid join reviewer m2 on p.rid2=m2.rid order by m1.name,m2.name;
 
-reviewer1    reviewer2
-Ashley White	Chris Jackson
-Chris Jackson	Brittany Harris
-Elizabeth Thomas	Daniel Lewis
-James Cameron	Elizabeth Thomas
-Mike Anderson	Sarah Martinez
+reviewer1              reviewer2
+Ashley White	        Chris Jackson
+Chris Jackson	       Brittany Harris
+Elizabeth Thomas    	Daniel Lewis
+James Cameron	       Elizabeth Thomas
+Mike Anderson	       Sarah Martinez
 
 /*15.return the reviewer name, movie title, and number of stars For each rating that is the lowest (fewest stars) 
 currently in the database*/
 select r.name,m.title,stars number_of_stars from reviewer r join rating ra on ra.rid=r.rid join movie m on m.mid=ra.mid
 where stars=(select min(stars) from rating );
 
-name title   number_of_stars
-Sarah Martinez	Gone with the Wind	2
-Brittany Harris	The Sound of Music	2
-Brittany Harris	Raiders of the Lost Ark	2
-Chris Jackson	E.T.	2
+name                title              number_of_stars
+Sarah Martinez	    Gone with the Wind	        2
+Brittany Harris	   The Sound of Music	        2
+Brittany Harris	   Raiders of the Lost Ark	   2
+Chris Jackson	     E.T.                      	2
 
 /*16.List movie titles and average ratings, from highest-rated to lowest-rated. If two or more movies have the same average rating, 
 list them in alphabetical order*/
 select m.title,avg(stars) from rating r join movie m on m.mid=r.mid group by r.mid order by avg(stars) desc,title;
 
-title      avg(stars)
-Snow White	4.5
-Avatar	4
-Raiders of the Lost Ark	3.33333333333333
-Gone with the Wind	3
-E.T.	2.5
-The Sound of Music	2.5
+title                     avg(stars)
+Snow White	                  4.5
+Avatar	                       4
+Raiders of the Lost Ark   	3.33333333333333
+Gone with the Wind	           3
+E.T.	                         2.5
+The Sound of Music           	2.5
 
 /*17.Find the names of all reviewers who have contributed three or more ratings. (As an extra challenge, 
 try writing the query without HAVING or without COUNT.)*/
@@ -241,11 +241,11 @@ and without COUNT.)*/
 select title,director from movie where director in 
 (select director from movie group by director having count(*)>1) order by director,title;
 
-title    director
-Avatar	James Cameron
-Titanic	James Cameron
-E.T.	Steven Spielberg
-Raiders of the Lost Ark	Steven Spielberg
+title                             director
+Avatar	                         James Cameron
+Titanic	                        James Cameron
+E.T.      	                     Steven Spielberg
+Raiders of the Lost Ark	        Steven Spielberg
 
 /*19.Find the movie(s) with the highest average rating. Return the movie title(s) and average rating. (Hint: This query is more 
 difficult to write in SQLite than other systems; you might think of it as finding the highest average rating and then choosing the 
@@ -253,8 +253,8 @@ movie(s) with that average rating.)*/
 select title,avg(stars) avg_rating from rating r1 join movie m1 on r1.mid=m1.mid group by r1.mid having avg(stars) in
 (select max(stars) from (select avg(stars) stars from rating r join movie m on r.mid=m.mid group by r.mid));
 
-title    avg_rating
-Snow White	4.5
+title      avg_rating
+Snow White	   4.5
 
 /*20.Find the movie(s) with the lowest average rating. Return the movie title(s) and average rating. (Hint: This query may be more 
 difficult to write in SQLite than other systems; you might think of it as finding the lowest average rating and then choosing the 
@@ -262,21 +262,21 @@ movie(s) with that average rating.)*/
 select title,avg(stars) avg_rating from rating r1 join movie m1 on r1.mid=m1.mid group by r1.mid having avg(stars) in
 (select min(stars) from (select avg(stars) stars from rating r join movie m on r.mid=m.mid group by r.mid));
 
-title avg_rating
-The Sound of Music	2.5
-E.T.	2.5
+title                 avg_rating
+The Sound of Music	      2.5
+E.T.	                    2.5
 
 /*21.For each director, return the director's name together with the title(s) of the movie(s) they directed that received the highest 
 rating among all of their movies, and the value of that rating. Ignore movies whose director is NULL.*/
 select director,title,max(stars) rating from movie m join rating r on r.mid=m.mid where director is not null group by r.mid
 order by director;
 
-director   title   rating
-James Cameron	Avatar	5
-Robert Wise	The Sound of Music	3
-Steven Spielberg	E.T.	3
-Steven Spielberg	Raiders of the Lost Ark	4
-Victor Fleming	Gone with the Wind	4
+director               title                  rating
+James Cameron	       Avatar              	       5
+Robert Wise      	   The Sound of Music	         3
+Steven Spielberg 	   E.T.	                       3
+Steven Spielberg	    Raiders of the Lost Ark	    4
+Victor Fleming	      Gone with the Wind         	4
 
 
 select * from Movie;
