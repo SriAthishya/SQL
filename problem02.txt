@@ -54,8 +54,13 @@ Insert into picked values(4, 2, 0 , "16-JUL-2012", 23, 0.52);
 select sum(weight) from picked where plantfk=2;
 select sum(pick.weight) from picked pick join plant pt on pt.plantid=pick.plantfk where pt.name='Corn';
 
+sum(weight)
+17.54
+
 /*2.reason Erin has change his location for picking the tomato to North*/
 update picked set locationfk=1 where plantfk=3 and gardenerfk=3;
+
+ Query finished in 0.001 second(s). Rows affected: 1
 
 /*3.Insert a new column 'Exper' of type Number (30) to the 'gardener' table which stores Experience of the of person*/
 alter table gardener add Exper number(30);
@@ -69,30 +74,66 @@ alter table gardener rename column Experi to Exper;*/
 select name from plant where plantid= 
 (select plantfk from planted where seeds<20 and date1 like '%14-APR%');
 
+name
+Carrot
+
 /*5. amount of sunlight and water to all plants with names that start with letter 'c' or letter 'r'*/
 select sunlight,water from plant where name like 'c%' or name like 'r%';
+
+sunlight  water
+0.26	     0.82
+0.44	     0.76
+0.28	     0.84
 
 /*6.display the plant name and the total amount of seed required for each plant that were plant in the garden
 desc of plant name*/
 select p.name,sum(pl.seeds) from plant p join planted pl on pl.plantfk=p.plantid group by p.name 
 order by p.name desc;
 
+name    sum(pl.seeds)
+Tomato	     38
+Radish	     30
+Lettuce	    30
+Corn	       32
+Carrot     	42
+Beet       	36
+
 /*7.average number of items produced per seed planted for each plant type 
 (Average Number of Items = Total Amount Picked / Total Seeds Planted.)*/
 select plantfk,sum(p.amount)/sum(pl.seeds) avg_no_of_items from picked p join planted pl on pl.plantfk=p.plantfk
 group by pl.plantfk;
 
+plantfk avg_no_of_items
+0	            0
+2            	2
+3            	0
+4	            0
+
 /*8.produce a result set like the following*/
 select g.name,p.name pname,pi.date1 date,pi.amount from gardener g join picked pi on pi.gardenerfk=g.gardenerid join plant p
 on p.plantid=pi.plantfk where g.name="Tim" and pi.date1<='18-AUG-2012' order by p.name desc;
+
+name    pname      date        amount
+Tim	   Radish	   16-JUL-2012	    23
+Tim	   Carrot	   18-AUG-2012	    28
 
 /*9. persons who picked from the same location as he/she planted*/
 select distinct pl.gardenerfk,pl.locationfk plantedloc,pi.locationfk pickedfk from planted pl join picked pi on
  pi.locationfk=pl.locationfk where pl.gardenerfk=pi.gardenerfk;
 
+gardenerfk  plantedloc   pickedfk
+1		             3	          3
+2		             2	          2
+2	             	0	          0
+
 /*10.all the plant names picked from all locations except ’West’ in the month of August*/
 select distinct p.name from plant p join picked pi on pi.plantfk=p.plantid join location l on
  l.locationid=pi.locationfk where l.name!='West' and pi.date1 like '%AUG%';
+
+name
+Carrot
+Corn
+Tomato
 
 select * from location;
 select * from gardener;
