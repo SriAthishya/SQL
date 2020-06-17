@@ -20,13 +20,13 @@ SELECT E_ID,NAME,SALARY FROM EMPLOYEE ORDER BY SALARY DESC LIMIT 3;
 e_id     name           salary
 A142	TARA CUMMINGS	99475
 A132	PAUL VINCENT	94791
-A128	ADAM WAYNE	94324
+A128	ADAM WAYNE	    94324
 
 /*2.EMPLOYEE WITH THE LEAST SALARY*/
 SELECT E_ID,NAME,SALARY FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE);
 
 e_id     name           salary
-A111	JOHN HELLEN	15380
+A111	JOHN HELLEN	    15380
 
 /*3.EMPLOYEES WHO DOES NOT HAVE A MANAGER IN THE DEPARTMENT TABLE*/
 SELECT E_ID,NAME FROM EMPLOYEE E WHERE MANAGER_ID NOT IN (
@@ -87,7 +87,7 @@ select e_id,name from employee where manager_id='A165';
 
 e_id     name
 A128	ADAM WAYNE
-A129	JOSEPH ANGELIN
+A129    JOSEPH ANGELIN
 
 /*11.Employee name,Employee count,Dep name,Dept manager in the Health department*/
 select e.name,e_id employee_count,d.dep_name,d.dep_manager from employee e join dept d 
@@ -96,10 +96,10 @@ on d.dep_id=e.dep_id where e.dep_id='D01';
 name            employee_count  dep_name   dep_manager 
 MARTIN TREDEAU	   A114	         HEALTH	    TIM ARCHER
 PAUL VINCENT	   A132	         HEALTH	    TIM ARCHER
-TIM ARCHER	   A120	         HEALTH	    TIM ARCHER
-BRAD MICHAEL	   A143    	 HEALTH	    TIM ARCHER
-EDWARD CANE	   A176		 HEALTH	    TIM ARCHER
-JOHN HELLEN	   A111	         HEALTH	    TIM ARCHER
+TIM ARCHER	       A120	         HEALTH	    TIM ARCHER
+BRAD MICHAEL	   A143    	     HEALTH	    TIM ARCHER
+EDWARD CANE	       A176		     HEALTH	    TIM ARCHER
+JOHN HELLEN	       A111	         HEALTH	    TIM ARCHER
 
 
 /*12.Department id,Employee ids and Manager ids for the Communications department*/
@@ -117,42 +117,42 @@ D02	A133	A188
 select d.dep_id,d.dep_name,avg(e.salary) average_expenses from dept d join employee e 
 on d.dep_id=e.dep_id group by d.dep_id;
 
-dep_id  dep_name 	average_expenses
-D01	 HEALTH		54527.666666666664
-D02	 COMMUNICATIONS	48271.333333333336
-D03	 PRODUCT	58517.5
-D04	 INSURANCE	51913.333333333336
-D05	 FINANCE	56660.333333333336
+dep_id  dep_name 	   average_expenses
+D01	 HEALTH		      54527.666666666664
+D02	 COMMUNICATIONS	  48271.333333333336
+D03	 PRODUCT	      58517.5
+D04	 INSURANCE	      51913.333333333336
+D05	 FINANCE	      56660.333333333336
 
 /*14.total expense for the department finance*/
 select sum(salary) total_expense,dep_id  from employee where dep_id='D05';
 
 total_expense   dep_id
-169981		D05
+169981		    D05
 
 /*15.department which spends the least with Dept id and Dept manager name*/
 select d.dep_id,d.dep_manager,avg(e.salary) expense from dept d join employee e on d.dep_id=e.dep_id 
 group by d.dep_id order by salary desc limit 1;
 
-dep_id  dep_manager     expense
-D02	ADAM JUSTIN	48271.333333333336
+dep_id   dep_manager       expense
+D02	     ADAM JUSTIN	48271.333333333336
 
 /*16.count of Employees in each department*/
 select count(e_id) no_of_emp,dep_id from employee group by dep_id;
 
 no_of_emp     dep_id
-6		D01
-6		D02
-2		D03
-3		D04
-3		D05
+6		       D01
+6		       D02
+2		       D03
+3		       D04
+3		       D05
 
 /*17.count of Employees in each department having salary <20000*/
 select dep_id,count(e_id) no_of_emp from employee where salary<20000 group by dep_id;
 
 dep_id  no_of_emp
-D01	    1
-D02	    1
+D01	       1
+D02	       1
 
 /*18. total number of Employees in Dept id D04 */
 select count(e_id) no_of_emp from employee where dep_id='D04';
@@ -165,11 +165,11 @@ select d.dep_id,d.dep_name,count(e.e_id) no_of_emp from employee e join dept d o
 group by d.dep_id order by count(e.e_id) desc;
 
 dep_id  dep_name       no_of_emp
-D01	 HEALTH		6
-D02	 COMMUNICATIONS	6
-D04	 INSURANCE	3
-D05	 FINANCE	3
-D03	PRODUCT	2
+D01	    HEALTH		      6
+D02	    COMMUNICATIONS	  6
+D04	    INSURANCE	      3
+D05	    FINANCE	          3
+D03	    PRODUCT	          2
 
 /*20.Employees who has Tim Archer as their manager*/
 SELECT E_ID,NAME FROM EMPLOYEE WHERE MANAGER_ID IN
